@@ -1,8 +1,8 @@
-import streamlit as st # type: ignore
+import streamlit as st 
 import pandas as pd
 import numpy as np
-import joblib # type: ignore
-import plotly.graph_objects as go # type: ignore
+import joblib 
+import plotly.graph_objects as go 
 
 # Page configuration
 st.set_page_config(
