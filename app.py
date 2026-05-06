@@ -119,6 +119,14 @@ st.sidebar._markdown(
 # Predict button
 st.sidebar._markdown("---\n")
 predict_btn = st.sidebar.button("🔮 Predict (পূর্বাভাস দিন)", type="primary", width = 'stretch')
+st.sidebar._markdown("\n\n"
+    "<div style='color:#27ae60; font-size:12px;'>"
+    "📱 Close the sidebar (on mobile) or click outside to view results<br>"
+    "(মোবাইলে সাইডবার বন্ধ করুন অথবা সাইডবারের বাইরে ক্লিক করে ফলাফল দেখুন)"
+    "</div>",
+    unsafe_allow_html=True
+)
+
 
 # Main content
 if predict_btn:
