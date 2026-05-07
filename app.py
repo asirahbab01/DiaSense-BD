@@ -1,3 +1,5 @@
+import time
+
 import streamlit as st 
 import pandas as pd
 import numpy as np
@@ -118,7 +120,15 @@ st.sidebar._markdown(
 
 # Predict button
 st.sidebar._markdown("---\n")
-predict_btn = st.sidebar.button("🔮 Predict (পূর্বাভাস দিন)", type="primary", width = 'stretch')
+
+# Create sidebar columns
+col1, col2 = st.sidebar.columns([5, 1])
+
+with col1:
+    predict_btn = st.sidebar.button("🔮 Predict (পূর্বাভাস দিন)", type="primary", use_container_width=True)
+
+with col2:
+    loader_placeholder = st.empty()
 st.sidebar._markdown("\n\n"
     "<div style='color:#27ae60; font-size:12px;'>"
     "📱 Close the sidebar (on mobile) or click outside to view results<br>"
@@ -130,22 +140,65 @@ st.sidebar._markdown("\n\n"
 
 # Main content
 if predict_btn:
+    # with st.spinner("🔄 Analyzing health data... (স্বাস্থ্য তথ্য বিশ্লেষণ চলছে...)"):
+    # # Small delay for better UX
+    #     time.sleep(1.5)
+
+    loader_placeholder.markdown(
+        """
+        <div style="display:flex; justify-content:center; align-items:center; height:38px;">
+            <div class="spinner"></div>
+            <span style="
+                color:#27ae60;
+                font-size:11px;
+                white-space:nowrap;
+            ">
+                Analyzing...বিশ্লেষণ চলছে...
+            </span>
+        </div>
+
+        <style>
+        .spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #d1fae5;
+            border-top: 1px solid #27ae60;
+            border-radius: 30%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    time.sleep(1.5)
+
     # Prepare input
     feature_names = [
-    'Pregnancies', 'Age', 'BMI', 'BP_systolic', 'BP_diastolic', 'DiabetesPedigreeFunction', 'Insulin',
-    'SkinThickness','Glucose'
-    ]
+        'Pregnancies', 'Age', 'BMI', 'BP_systolic', 'BP_diastolic', 'DiabetesPedigreeFunction', 'Insulin',
+        'SkinThickness','Glucose'
+        ]
     input_data = pd.DataFrame([[
-    pregnancies, age, bmi, bp_systolic, bp_diastolic, dpf, insulin,
-    skin, glucose
-    ]], columns=feature_names)
-    
+        pregnancies, age, bmi, bp_systolic, bp_diastolic, dpf, insulin,
+        skin, glucose
+        ]], columns=feature_names)
+        
     # Standardize
     input_std = scaler.transform(input_data)
-    
+        
     # Predict
     prediction = model.predict(input_std)[0]
+
+    # Optional tiny delay
+    time.sleep(0.2)
     
+    # REMOVE loader after prediction
+    loader_placeholder.empty()
+
     # Get probability if available
     try:
         probability = model.predict_proba(input_std)[0]
