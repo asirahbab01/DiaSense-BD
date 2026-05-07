@@ -93,6 +93,23 @@ bp_diastolic = st.sidebar.slider('Diastolic Blood Pressure (ডায়াস�
 st.sidebar._markdown(
     f' <p style="font-size: 13px;"> নির্ধারিত ডায়াস্টোলিক রক্তচাপ: {to_bangla_digits(bp_diastolic)}</p>', unsafe_allow_html=True
 )
+
+#Invalid input handling for blood pressure
+invalid_bp = bp_diastolic > bp_systolic
+if invalid_bp:
+    st.sidebar.markdown(
+        """
+        <div style="
+            color:#e74c3c;
+            font-size:12px;
+            font-weight:400;
+        ">
+        ❌ Diastolic BP cannot be higher than systolic BP.<br>
+        (ডায়াস্টোলিক চাপ সিস্টোলিক চাপের চেয়ে বেশি হতে পারে না।)
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 st.sidebar.markdown("\n\n")
 
 skin = st.sidebar.slider('Skin Thickness (ত্বকের পুরুত্ব) (mm)', 0, 100, 20)
@@ -139,11 +156,7 @@ st.sidebar._markdown("\n\n"
 
 
 # Main content
-if predict_btn:
-    # with st.spinner("🔄 Analyzing health data... (স্বাস্থ্য তথ্য বিশ্লেষণ চলছে...)"):
-    # # Small delay for better UX
-    #     time.sleep(1.5)
-
+if predict_btn and not invalid_bp:
     loader_placeholder.markdown(
         """
         <div style="display:flex; justify-content:center; align-items:center; height:38px;">
