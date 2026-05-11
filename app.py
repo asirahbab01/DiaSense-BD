@@ -124,7 +124,7 @@ st.sidebar._markdown(
 )
 st.sidebar.markdown("\n\n")
 
-bmi = st.sidebar.number_input('Body Mass Index (BMI) (দেহের ভর সূচক)', 10.0, 35.0, 23.0, 0.1)
+bmi = st.sidebar.number_input('Body Mass Index (BMI) (দেহের ভর সূচক)', 13.0, 35.0, 23.0, 0.1)
 st.sidebar._markdown(
     f' <p style="font-size: 13px;"> নির্ধারিত BMI(দেহের ভর সূচক): {to_bangla_digits(bmi)}</p>', unsafe_allow_html=True
 )
@@ -230,12 +230,12 @@ if predict_btn and not invalid_bp:
     with col1:
         # Prediction box
         if prediction == 0:
-            if prob_positive < 35:
+            if prob_positive < 33:
                 st.success("#### ✅ LOW RISK - Not Diabetic (কম ঝুঁকি-সুস্থ)")
             else:
                 st.warning("#### ⚠️ MODERATE RISK - Not Diabetic (মাঝারি ঝুঁকি-সতর্ক)")
         else:
-            if prob_positive > 70:
+            if prob_positive > 65:
                 st.error("#### 🔴 HIGH RISK - Diabetic (উচ্চ ঝুঁকি-ডায়াবেটিস)")
             else:
                 st.warning("#### ⚠️ MODERATE RISK - Diabetic (মাঝারি ঝুঁকি-ডায়াবেটিস)")
@@ -259,9 +259,9 @@ if predict_btn and not invalid_bp:
                 'axis': {'range': [None, 100]},
                 'bar': {'color': "darkblue"},
                 'steps': [
-                    {'range': [0, 35], 'color': "lightgreen"},
-                    {'range': [35, 70], 'color': "yellow"},
-                    {'range': [70, 100], 'color': "red"}
+                    {'range': [0, 33], 'color': "lightgreen"},
+                    {'range': [33, 65], 'color': "yellow"},
+                    {'range': [65, 100], 'color': "red"}
                 ],
                 'threshold': {
                     'line': {'color': "red", 'width': 4},
